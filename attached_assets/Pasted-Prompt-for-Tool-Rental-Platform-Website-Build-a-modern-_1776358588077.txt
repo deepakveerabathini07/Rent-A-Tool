@@ -1,0 +1,92 @@
+Prompt for Tool Rental Platform Website
+
+Build a modern, scalable web application called “ToolShare” — a peer-to-peer tool rental platform where users can rent tools and owners can list their unused tools for income.
+
+🎯 Core Concept
+
+People often buy expensive tools (like drills, ladders, etc.) but use them rarely. This platform solves that problem by enabling:
+
+Owners to list tools for rent
+Users to rent tools when needed instead of buying
+👤 User Roles
+
+Implement two separate roles with authentication:
+
+1. User (Renter)
+Register/Login (Email + Password or Google login)
+Browse available tools
+Search & filter tools (category, price, location)
+View tool details:
+Tool name
+Image
+Description
+Rental price (per day/hour)
+Owner details
+Request to rent a tool
+View booking history
+Track request status (Pending / Approved / Rejected)
+2. Owner (Tool Provider)
+Register/Login
+Dashboard to manage tools
+Add new tool:
+Tool name
+Upload image
+Description
+Rental price
+Availability
+Edit/Delete tool listings
+View incoming rental requests
+Accept/Reject requests
+View earnings summary
+🧩 Key Features
+🔐 Authentication system (JWT or Firebase Auth)
+📦 Tool listing management (CRUD operations)
+🔍 Search + filters (category, price range)
+📅 Booking/request system
+💬 Optional: Messaging between user & owner
+⭐ Ratings & reviews (optional but recommended)
+📍 Optional: Location-based filtering
+🎨 UI/UX Requirements
+Clean, modern UI with a minimal yet vibrant color scheme
+Primary: Deep Blue (#1E3A8A)
+Secondary: Teal (#14B8A6)
+Accent: Orange (#F59E0B)
+Smooth animations using Framer Motion
+Responsive design (mobile + desktop)
+Dashboard-style layouts for both roles
+Cards for tool display with hover effects
+🏠 Pages Required
+Landing Page (Hero + How it works + CTA)
+Login / Signup Page
+User Dashboard
+Owner Dashboard
+Tool Listing Page
+Tool Details Page
+Add Tool Page (Owner)
+Booking/Request Page
+Profile Page
+⚙️ Tech Stack
+
+Use modern full-stack technologies:
+
+Frontend: React (Next.js preferred)
+Styling: Tailwind CSS
+Animations: Framer Motion
+Backend: Node.js + Express OR Firebase
+Database: MongoDB / Firebase Firestore
+Image Upload: Cloudinary / Firebase Storage
+🧠 Advanced Features (Bonus)
+Real-time availability updates
+Payment integration (Stripe/Razorpay)
+Notifications (email or in-app)
+Admin panel for moderation
+📌 Performance & Quality
+Optimize for fast loading
+Clean, modular, reusable code
+Follow best UI/UX practices
+Ensure accessibility basics
+🧪 Output Expectation
+Fully functional UI + backend logic
+Clean folder structure
+Ready-to-deploy project
+Include sample dummy data
