@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "ToolShare"
+version = "1.0.0"
+id = "artifacts/toolshare"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19336
+
+[services.development]
+run = "pnpm --filter @workspace/toolshare run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/toolshare", "run", "build" ]
+publicDir = "artifacts/toolshare/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19336"
+BASE_PATH = "/"

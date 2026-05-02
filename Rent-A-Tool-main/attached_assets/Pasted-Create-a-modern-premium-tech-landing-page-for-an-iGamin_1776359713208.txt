@@ -1,0 +1,99 @@
+Create a modern premium tech landing page for an iGaming platform.
+
+Theme:
+Dark futuristic tech theme with luxury casino vibes.
+
+Color palette:
+Primary background: deep black (#0a0a0a)
+Accent color: dark red (#b30000)
+Secondary accent: glowing crimson (#ff2b2b)
+Text color: white and light gray.
+
+Design style:
+Minimalist corporate SaaS design with cinematic visuals.
+
+Layout:
+1. Sticky top navigation bar
+   - Logo left
+   - Menu: Solutions, About Us, Careers, Blog
+   - Red CTA button: "Contact Us"
+   - Language selector on right
+
+2. Hero section
+   - Fullscreen dark gradient background
+   - Abstract luxury feather or particle animation
+   - Large bold heading text
+   - Subheading tagline
+   - CTA button
+
+3. Feature sections
+   - Cards describing platform tools
+   - CMS, CRM, Payments, Risk management
+   - Icons + short descriptions
+
+4. Product showcase sections
+   - Dark cards
+   - Hover animations
+   - glowing red highlights
+
+5. Stats / numbers section
+   - Big numbers like:
+     100k+ events
+     16k+ games
+     125 sports
+
+6. Footer
+   - Dark background
+   - Company links
+   - Social icons
+   - copyright
+
+Style details:
+- Glassmorphism cards
+- Smooth scroll animations
+- Red glowing hover effects
+- Tech startup SaaS vibe
+- High-end gaming aesthetic
+fonts-Inter
+or
+Space Grotesk
+UI Style Elements
+
+Use these UI features to match the site:
+
+Dark gradients
+Floating particle effects
+Red glow effects
+Smooth transitions
+Minimalist sections
+High contrast typography
+4. Color Palette
+Black: #0A0A0A
+Dark Red: #7A0000
+Primary Red: #C1121F
+Highlight Red: #FF3B3B
+Text White: #FFFFFF
+Text Gray: #BDBDBD
+. Animation Effects Used on the Site
+
+Use these:
+
+Scroll fade-in animations
+Parallax background
+Hover glow on buttons
+Card lift on hover
+Particle effects
+
+Libraries:
+
+Framer Motion
+GSAP
+AOS (Animate on Scroll)
+9. Tech Stack (Closest to the Original)
+
+Use:
+
+React / Next.js
+Tailwind CSS
+Framer Motion
+Three.js (optional particles)

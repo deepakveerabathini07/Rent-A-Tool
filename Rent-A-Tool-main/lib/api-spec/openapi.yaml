@@ -1,0 +1,621 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: ToolShare API specification
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+    description: Health operations
+  - name: tools
+    description: Tool listings
+  - name: bookings
+    description: Rental bookings
+  - name: users
+    description: User management
+  - name: stats
+    description: Dashboard statistics
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /tools:
+    get:
+      operationId: listTools
+      tags: [tools]
+      summary: List all tools
+      parameters:
+        - name: category
+          in: query
+          schema:
+            type: string
+        - name: minPrice
+          in: query
+          schema:
+            type: number
+        - name: maxPrice
+          in: query
+          schema:
+            type: number
+        - name: search
+          in: query
+          schema:
+            type: string
+        - name: available
+          in: query
+          schema:
+            type: boolean
+      responses:
+        "200":
+          description: List of tools
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tool"
+    post:
+      operationId: createTool
+      tags: [tools]
+      summary: Create a new tool listing
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateToolBody"
+      responses:
+        "201":
+          description: Created tool
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tool"
+
+  /tools/{id}:
+    get:
+      operationId: getTool
+      tags: [tools]
+      summary: Get tool by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Tool details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tool"
+    put:
+      operationId: updateTool
+      tags: [tools]
+      summary: Update a tool listing
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateToolBody"
+      responses:
+        "200":
+          description: Updated tool
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Tool"
+    delete:
+      operationId: deleteTool
+      tags: [tools]
+      summary: Delete a tool listing
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "204":
+          description: Deleted
+
+  /tools/categories:
+    get:
+      operationId: listToolCategories
+      tags: [tools]
+      summary: List tool categories with counts
+      responses:
+        "200":
+          description: Categories
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/CategoryCount"
+
+  /tools/featured:
+    get:
+      operationId: listFeaturedTools
+      tags: [tools]
+      summary: List featured / top-rated tools
+      responses:
+        "200":
+          description: Featured tools
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Tool"
+
+  /bookings:
+    get:
+      operationId: listBookings
+      tags: [bookings]
+      summary: List all bookings
+      parameters:
+        - name: status
+          in: query
+          schema:
+            type: string
+            enum: [pending, approved, rejected, completed]
+        - name: userId
+          in: query
+          schema:
+            type: integer
+        - name: ownerId
+          in: query
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: List of bookings
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Booking"
+    post:
+      operationId: createBooking
+      tags: [bookings]
+      summary: Create a booking request
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateBookingBody"
+      responses:
+        "201":
+          description: Created booking
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+
+  /bookings/{id}:
+    get:
+      operationId: getBooking
+      tags: [bookings]
+      summary: Get booking by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Booking details
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+    put:
+      operationId: updateBookingStatus
+      tags: [bookings]
+      summary: Update booking status (approve/reject)
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateBookingStatusBody"
+      responses:
+        "200":
+          description: Updated booking
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Booking"
+
+  /users:
+    get:
+      operationId: listUsers
+      tags: [users]
+      summary: List users
+      responses:
+        "200":
+          description: Users list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/User"
+    post:
+      operationId: createUser
+      tags: [users]
+      summary: Create a user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateUserBody"
+      responses:
+        "201":
+          description: Created user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /users/{id}:
+    get:
+      operationId: getUser
+      tags: [users]
+      summary: Get user by ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: User
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/User"
+
+  /stats/platform:
+    get:
+      operationId: getPlatformStats
+      tags: [stats]
+      summary: Platform-wide statistics
+      responses:
+        "200":
+          description: Platform stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PlatformStats"
+
+  /stats/owner/{ownerId}:
+    get:
+      operationId: getOwnerStats
+      tags: [stats]
+      summary: Owner dashboard statistics
+      parameters:
+        - name: ownerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Owner stats
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/OwnerStats"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required:
+        - status
+
+    Tool:
+      type: object
+      properties:
+        id:
+          type: integer
+        ownerId:
+          type: integer
+        ownerName:
+          type: string
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        imageUrl:
+          type: string
+        pricePerDay:
+          type: number
+        pricePerHour:
+          type: number
+        available:
+          type: boolean
+        rating:
+          type: number
+        reviewCount:
+          type: integer
+        location:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - ownerId
+        - ownerName
+        - name
+        - description
+        - category
+        - imageUrl
+        - pricePerDay
+        - available
+        - rating
+        - reviewCount
+        - location
+        - createdAt
+
+    CreateToolBody:
+      type: object
+      properties:
+        ownerId:
+          type: integer
+        name:
+          type: string
+        description:
+          type: string
+        category:
+          type: string
+        imageUrl:
+          type: string
+        pricePerDay:
+          type: number
+        pricePerHour:
+          type: number
+        available:
+          type: boolean
+        location:
+          type: string
+      required:
+        - ownerId
+        - name
+        - description
+        - category
+        - imageUrl
+        - pricePerDay
+        - available
+        - location
+
+    CategoryCount:
+      type: object
+      properties:
+        category:
+          type: string
+        count:
+          type: integer
+        icon:
+          type: string
+      required:
+        - category
+        - count
+        - icon
+
+    Booking:
+      type: object
+      properties:
+        id:
+          type: integer
+        toolId:
+          type: integer
+        toolName:
+          type: string
+        toolImageUrl:
+          type: string
+        userId:
+          type: integer
+        userName:
+          type: string
+        ownerId:
+          type: integer
+        ownerName:
+          type: string
+        startDate:
+          type: string
+        endDate:
+          type: string
+        totalDays:
+          type: integer
+        totalPrice:
+          type: number
+        status:
+          type: string
+          enum: [pending, approved, rejected, completed]
+        message:
+          type: string
+        createdAt:
+          type: string
+      required:
+        - id
+        - toolId
+        - toolName
+        - toolImageUrl
+        - userId
+        - userName
+        - ownerId
+        - ownerName
+        - startDate
+        - endDate
+        - totalDays
+        - totalPrice
+        - status
+        - createdAt
+
+    CreateBookingBody:
+      type: object
+      properties:
+        toolId:
+          type: integer
+        userId:
+          type: integer
+        startDate:
+          type: string
+        endDate:
+          type: string
+        message:
+          type: string
+      required:
+        - toolId
+        - userId
+        - startDate
+        - endDate
+
+    UpdateBookingStatusBody:
+      type: object
+      properties:
+        status:
+          type: string
+          enum: [approved, rejected, completed]
+      required:
+        - status
+
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum: [renter, owner]
+        avatarUrl:
+          type: string
+        location:
+          type: string
+        bio:
+          type: string
+        createdAt:
+          type: string
+        rating:
+          type: number
+        reviewCount:
+          type: integer
+      required:
+        - id
+        - name
+        - email
+        - role
+        - createdAt
+        - rating
+        - reviewCount
+
+    CreateUserBody:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        role:
+          type: string
+          enum: [renter, owner]
+        location:
+          type: string
+        bio:
+          type: string
+      required:
+        - name
+        - email
+        - role
+
+    PlatformStats:
+      type: object
+      properties:
+        totalTools:
+          type: integer
+        totalUsers:
+          type: integer
+        totalBookings:
+          type: integer
+        activeRentals:
+          type: integer
+        totalEarnings:
+          type: number
+        categoriesCount:
+          type: integer
+      required:
+        - totalTools
+        - totalUsers
+        - totalBookings
+        - activeRentals
+        - totalEarnings
+        - categoriesCount
+
+    OwnerStats:
+      type: object
+      properties:
+        totalTools:
+          type: integer
+        activeRentals:
+          type: integer
+        pendingRequests:
+          type: integer
+        totalEarnings:
+          type: number
+        monthlyEarnings:
+          type: number
+        topTool:
+          type: string
+        averageRating:
+          type: number
+      required:
+        - totalTools
+        - activeRentals
+        - pendingRequests
+        - totalEarnings
+        - monthlyEarnings
+        - averageRating
