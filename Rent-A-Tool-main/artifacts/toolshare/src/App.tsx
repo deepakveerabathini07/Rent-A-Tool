@@ -60,7 +60,7 @@ function App() {
           <CartProvider>
           <TooltipProvider>
             <TargetCursor spinDuration={2} hideDefaultCursor parallaxOn hoverDuration={0.2} />
-            <WouterRouter base={import.meta.env.BASE_URL.replace(/\/$/, "")}>
+            <WouterRouter base="">
               <Router />
             </WouterRouter>
             <Toaster />
