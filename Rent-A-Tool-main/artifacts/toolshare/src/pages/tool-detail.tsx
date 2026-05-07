@@ -1,4 +1,4 @@
-﻿import { useState, useMemo } from "react";
+import { useState, useMemo } from "react";
 import { useRoute, useLocation } from "wouter";
 import { motion } from "framer-motion";
 import { format, addDays, isSameDay, parseISO, eachDayOfInterval, startOfDay } from "date-fns";
@@ -11,7 +11,7 @@ import { Badge } from "@/components/ui/badge";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Textarea } from "@/components/ui/textarea";
 import { useToast } from "@/hooks/use-toast";
-import { useGetTool, useCreateBooking, getGetToolQueryKey } from "@workspace/api-client-react";
+import { useGetTool, useCreateBooking, getGetToolQueryKey } from "@/lib/api-client";
 import { MapPin, Star, CalendarIcon, ShieldCheck, Wrench, ChevronLeft, CheckCircle2, CalendarCheck, CalendarX, ShoppingCart, Check } from "lucide-react";
 import { formatINR } from "@/lib/currency";
 
@@ -23,7 +23,7 @@ const MOCK_BOOKED_RANGES: Record<number, { from: string; to: string }[]> = {
 };
 
 export default function ToolDetail() {
-  const [, params] = useRoute("/tools/:id");
+  const [, params] = useRoute<{ id: string }>("/tools/:id");
   const id = params?.id ? parseInt(params.id) : 0;
   const [, setLocation] = useLocation();
   const { user } = useAuth();
@@ -191,21 +191,21 @@ export default function ToolDetail() {
                       {bookedRanges.map((r, i) => (
                         <span key={i} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-red-500/10 border border-red-500/20 text-red-500 text-xs font-medium">
                           <span className="w-1.5 h-1.5 rounded-full bg-red-500 shrink-0" />
-                          {format(parseISO(r.from), "MMM d")} – {format(parseISO(r.to), "MMM d, yyyy")}
+                          {format(parseISO(r.from), "MMM d")} � {format(parseISO(r.to), "MMM d, yyyy")}
                         </span>
                       ))}
                     </div>
                   </div>
                 )}
                 <p className="text-[11px] text-muted-foreground uppercase tracking-widest font-semibold mb-3 flex items-center gap-1.5">
-                  <CalendarCheck className="w-3.5 h-3.5 text-green-500" /> Open Windows — Next 30 Days
+                  <CalendarCheck className="w-3.5 h-3.5 text-green-500" /> Open Windows � Next 30 Days
                 </p>
                 <div className="flex flex-wrap gap-2">
                   {availableWindows.map((w, i) => (
                     <button key={i} onClick={() => setDateRange({ from: w.from, to: w.to })}
                       className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-green-500/10 border border-green-500/20 text-green-600 dark:text-green-400 text-xs font-medium hover:bg-green-500/20 transition-colors">
                       <span className="w-1.5 h-1.5 rounded-full bg-green-500 shrink-0" />
-                      {format(w.from, "MMM d")} – {format(w.to, "MMM d")}
+                      {format(w.from, "MMM d")} � {format(w.to, "MMM d")}
                     </button>
                   ))}
                 </div>
@@ -230,7 +230,7 @@ export default function ToolDetail() {
                         <div>
                           <p className="text-[10px] font-bold uppercase tracking-widest text-muted-foreground mb-1">Rental Dates</p>
                           <p className="text-sm font-semibold text-foreground">
-                            {dateRange.from ? format(dateRange.from, "MMM d, yyyy") : "Pick start"}{" – "}
+                            {dateRange.from ? format(dateRange.from, "MMM d, yyyy") : "Pick start"}{" � "}
                             {dateRange.to ? format(dateRange.to, "MMM d, yyyy") : "Pick end"}
                           </p>
                         </div>
@@ -248,7 +248,7 @@ export default function ToolDetail() {
                       <>
                         <Button onClick={handleBooking} disabled={createBooking.isPending || !tool.available}
                           className="w-full h-12 rounded-xl font-bold bg-gradient-to-r from-orange-500 to-amber-500 hover:from-orange-600 hover:to-amber-600 text-white shadow-lg shadow-orange-500/25 hover:scale-[1.02] transition-all border-0">
-                          {createBooking.isPending ? "Requesting…" : !tool.available ? "Currently Unavailable" : "Request to Rent"}
+                          {createBooking.isPending ? "Requesting�" : !tool.available ? "Currently Unavailable" : "Request to Rent"}
                         </Button>
                         <motion.button
                           onClick={handleAddToCart}
@@ -279,7 +279,7 @@ export default function ToolDetail() {
                   {dateRange.from && dateRange.to && tool.available && user?.id !== tool.ownerId && (
                     <motion.div className="mt-6 space-y-2.5 pt-5 border-t border-border" initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
                       <div className="flex justify-between text-sm text-muted-foreground">
-                        <span>{formatINR(tool.pricePerDay)} × {days} {days === 1 ? "day" : "days"}</span>
+                        <span>{formatINR(tool.pricePerDay)} � {days} {days === 1 ? "day" : "days"}</span>
                         <span className="text-foreground">{formatINR(totalCost)}</span>
                       </div>
                       <div className="flex justify-between text-sm text-muted-foreground">
