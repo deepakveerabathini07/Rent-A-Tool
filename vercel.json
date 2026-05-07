@@ -1,0 +1,8 @@
+{
+  "version": 2,
+  "buildCommand": "cd artifacts/toolshare && pnpm install && pnpm run build",
+  "outputDirectory": "artifacts/toolshare/dist/public",
+  "installCommand": "pnpm install",
+  "framework": null,
+  "rewrites": [{ "source": "/(.*)", "destination": "/index.html" }]
+}
